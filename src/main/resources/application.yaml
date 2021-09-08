@@ -3,3 +3,4 @@ spring:
     active: ${ACTIVE_PROFILE:dev}
     include:
       - db
+      - security
