@@ -34,6 +34,12 @@ public class JwtTokenProvider {
     @Value("jwt.secret")
     private String secret;
 
+    /**
+     *
+     * @param userPrincipal Usage of the class is map our user entity to spring security user class
+     * @return jwt token
+     * @implNote generating jwt token
+     */
     private String generateJwtToken(UserPrincipal userPrincipal){
         String[] claims = getClaimsFromUser(userPrincipal);
         return JWT.create()
@@ -64,7 +70,7 @@ public class JwtTokenProvider {
      * @param authorities authorities of current user
      * @param request http request
      * @return UsernamePasswordAuthenticationToken Object
-     * @implNote So the reason i did this method is that if i can verify that a token is correct. I have to tell spring security to get me authentication of the user and then set that authentication in the spring security context
+     * @implNote So the reason I did this method is that if i can verify that a token is correct. I have to tell spring security to get me authentication of the user and then set that authentication in the spring security context
      */
     public Authentication getAuthentication(String username, List<GrantedAuthority> authorities, HttpServletRequest request) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,null,authorities);
@@ -103,7 +109,7 @@ public class JwtTokenProvider {
      * @return subject of jwt token
      * @implNote getting subject of token , using jwt verifier
      */
-    private String getSubject(String token) {
+    public String getSubject(String token) {
         JWTVerifier verifier = getVerifier(token);
         return verifier.verify(token).getSubject();
     }
